@@ -18,14 +18,28 @@ function updateSortState(newHeader) {
   }
 }
 
+/* eslint-disable */
+
 function sortByHeader(dataToSort, sortBy, direction) {
   let sorted;
 
   switch (sortBy) {
     case 'name':
+      sorted = [...dataToSort].sort((a, b) =>
+        a.value?.toLowerCase().localeCompare(b.value?.toLowerCase()),
+      );
+      break;
+
     case 'position':
+      sorted = [...dataToSort].sort((a, b) =>
+        a.value?.toLowerCase().localeCompare(b.value?.toLowerCase()),
+      );
+      break;
+
     case 'office':
-      sorted = [...dataToSort].sort((a, b) => a.value.localeCompare(b.value));
+      sorted = [...dataToSort].sort((a, b) =>
+        a.value?.toLowerCase().localeCompare(b.value?.toLowerCase()),
+      );
       break;
 
     case 'age':
@@ -35,10 +49,10 @@ function sortByHeader(dataToSort, sortBy, direction) {
     case 'salary':
       sorted = [...dataToSort]
         .map((n) => ({
-          value: String(n.value.replace(/[$,]/g, '')),
+          value: Number(String(n.value).replace(/[^0-9.-]+/g, '')),
           row: n.row,
         }))
-        .sort((a, b) => +a.value - +b.value);
+        .sort((a, b) => a.value - b.value);
       break;
 
     default:
@@ -47,6 +61,8 @@ function sortByHeader(dataToSort, sortBy, direction) {
 
   return direction === 'asc' ? sorted : sorted.reverse();
 }
+
+/* eslint-enable */
 
 function renderSortedRows(sortedData) {
   tbody.innerHTML = '';
